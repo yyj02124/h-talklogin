@@ -12,7 +12,7 @@ export const getHTalkCertApi = async (request:CertLoginTypes,endPoint:string) =>
       .then(( res ) => {
         const result =  res.data
         console.log(result)
-        localStorage.setItem('app-storage',JSON.stringify(result.certId))
+        localStorage.setItem('app-storage',result.certId)
         return res.data
       })
       .catch((err) => {

@@ -4,12 +4,13 @@ import { useForm } from "react-hook-form";
 import LoginField from "./LoginField";
 import { getHTalkCertApi, getHTalkLoginApi } from "./service/login";
 import { CertLoginTypes, LoginTypes } from "./service/loginTypes";
+import { useStore } from "./store";
 
 
 
 const LoginPage = () => {
   const { handleSubmit, control } = useForm();
-  const [certId,setCertId] = useState<string|null>('');
+  const setCertId = useStore((state)=>state.setCertId)
 
   const handleLogin = (data:any) => {
 
@@ -32,7 +33,6 @@ const LoginPage = () => {
     }
 
     getHTalkCertApi(loginData,`/auth/v1/cert/confirm/pw`)
-  
     setCertId(localStorage.getItem('app-storage'))
   }
 
@@ -53,6 +53,7 @@ const LoginPage = () => {
   return (
     <Box sx={{ width: "560px", height: "365px", backgroundColor: "#f5f9fe" }}>
       <Typography>H-Talk LoginPage</Typography>
+      
       <form onSubmit={handleSubmit((data) => {
         handleLogin(data)
         handleCertLogin(data)
@@ -61,10 +62,11 @@ const LoginPage = () => {
         <LoginField label="아이디" control={control} name="Login" type="Login"></LoginField>
         <LoginField label="비밀번호" control={control} name="Password" type="Password"></LoginField>
         <LoginField label="인증번호" control={control} name="CertNum" type="Login"></LoginField>
-        <Button variant='contained' sx={{mt: '20px'}} type='submit'>
+        <Button variant='contained' sx={{mt: '20px', backgroundColor:'#000000', width:'352px'}} type='submit'>
         로그인
       </Button>
       </form>
+      
     </Box>
   );
 };
