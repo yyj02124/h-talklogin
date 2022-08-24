@@ -5,18 +5,16 @@ interface props {
   label: string;
   control: Control;
   name: string;
-  rules?: Object;
   type: string;
 }
 
-const LoginField = ({ label, control, name, rules, type }: props) => {
+const LoginField = ({ label, control, name, type }: props) => {
   return (
     <Box sx={{mt:'10px'}}>
       <Typography sx={{fontSize:'14px', fontWeight:'500'}}>{label}</Typography>
       <Controller
         control={control}
         name={name}
-        rules={rules}
         render={({ field }) => <TextField {...field} type={type} sx={{width:'352px'}}/>}
       />
     </Box>

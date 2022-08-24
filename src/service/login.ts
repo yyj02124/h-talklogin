@@ -5,14 +5,11 @@ const baseUrl = `https://htalk-api.helixtech.co.kr`
 
 export const getHTalkCertApi = async (request:CertLoginTypes,endPoint:string) => {
     let url = `${baseUrl}${endPoint}`
-    return axios
+    return await axios
       .post(url,request,{
         headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
       })
       .then(( res ) => {
-        const result =  res.data
-        console.log(result)
-        localStorage.setItem('app-storage',result.certId)
         return res.data
       })
       .catch((err) => {
@@ -21,17 +18,46 @@ export const getHTalkCertApi = async (request:CertLoginTypes,endPoint:string) =>
       })
   }
 
-  export const getHTalkLoginApi = async (request:LoginTypes,endPoint:string) => {
+  // export const getHTalkLoginApi = async (request:LoginTypes,endPoint:string) => {
+  //   let url = `${baseUrl}${endPoint}`
+  //   return axios
+  //     .post(url,request,{
+  //       headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
+  //     })
+  //     .then(( res ) => {
+  //       return res.data
+  //     })
+  //     .catch((err) => {
+  //       console.error(err)
+  //       throw new Error(err.message)
+  //     })
+  // }
+
+  export const getHtalkApi = async(request:CertLoginTypes,endPoint:string) =>{
     let url = `${baseUrl}${endPoint}`
-    return axios
-      .post(url,request,{
+    try{
+      const certNumberResponse = await axios.post(url,request,{
         headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
       })
-      .then(( res ) => {
-        return res.data
+      const certId = certNumberResponse.data.certId
+      console.log(certId)
+      localStorage.setItem('app-storage',certId)
+
+    }catch(err){
+      console.error('Error:::',err)
+    }
+  }
+
+  export const getHTalkLoginApi = async (request:LoginTypes,endPoint:string) => {
+    let url = `${baseUrl}${endPoint}`
+    try{
+      const getUserInform = await axios.post(url,request,{
+        headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
       })
-      .catch((err) => {
-        console.error(err)
-        throw new Error(err.message)
-      })
+      const userInform = getUserInform.data
+      console.log(userInform)
+      return userInform
+    }catch(err){
+      console.error('Error:::',err)
+    }
   }
