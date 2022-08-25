@@ -1,63 +1,36 @@
 import axios from "axios"
 import { CertLoginTypes, LoginTypes } from "./loginTypes"
 
-const baseUrl = `https://htalk-api.helixtech.co.kr`
+const baseUrl = `https://htalk-api.helixtech.co.kr/auth/v1`
 
-export const getHTalkCertApi = async (request:CertLoginTypes,endPoint:string) => {
-    let url = `${baseUrl}${endPoint}`
-    return await axios
-      .post(url,request,{
-        headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
-      })
-      .then(( res ) => {
-        return res.data
-      })
-      .catch((err) => {
-        console.error(err)
-        throw new Error(err.message)
-      })
-  }
-
-  // export const getHTalkLoginApi = async (request:LoginTypes,endPoint:string) => {
-  //   let url = `${baseUrl}${endPoint}`
-  //   return axios
-  //     .post(url,request,{
-  //       headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
-  //     })
-  //     .then(( res ) => {
-  //       return res.data
-  //     })
-  //     .catch((err) => {
-  //       console.error(err)
-  //       throw new Error(err.message)
-  //     })
-  // }
-
-  export const getHtalkApi = async(request:CertLoginTypes,endPoint:string) =>{
-    let url = `${baseUrl}${endPoint}`
+  export const getHtalkApi = async(certNumreq:CertLoginTypes,certIdreq:CertLoginTypes,userInformReq:CertLoginTypes) =>{
     try{
-      const certNumberResponse = await axios.post(url,request,{
+      const getCertNum = await axios.post(`${baseUrl}/cert/pw`,certNumreq,{
         headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
       })
-      const certId = certNumberResponse.data.certId
-      console.log(certId)
+      const getCertId = await axios.post(`${baseUrl}/cert/confirm/pw`,certIdreq,{
+        headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
+      })
+      const certId = getCertId.data.certId
       localStorage.setItem('app-storage',certId)
+
+      const getUserInform = await axios.post(`${baseUrl}/login/pw`,userInformReq,{
+        headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
+      })
 
     }catch(err){
       console.error('Error:::',err)
     }
   }
 
-  export const getHTalkLoginApi = async (request:LoginTypes,endPoint:string) => {
-    let url = `${baseUrl}${endPoint}`
+  export const getUserInformationApi = async(userInformReq:CertLoginTypes)=> {
     try{
-      const getUserInform = await axios.post(url,request,{
+      const getUserInform = await axios.post(`${baseUrl}/login/pw`,userInformReq,{
         headers:{'App-Agent' : 'AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB'}
       })
-      const userInform = getUserInform.data
-      console.log(userInform)
-      return userInform
+      const certId = localStorage.getItem('app-storage')
+      console.log(certId)
     }catch(err){
-      console.error('Error:::',err)
+      console.log('Error:::',err)
     }
   }

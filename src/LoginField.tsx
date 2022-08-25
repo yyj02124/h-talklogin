@@ -1,10 +1,11 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldName } from "react-hook-form";
+import { LoginFormValues } from "./LoginPage";
 
 interface props {
   label: string;
-  control: Control;
-  name: string;
+  control: Control<LoginFormValues>;
+  name: FieldName<LoginFormValues>;
   type: string;
 }
 

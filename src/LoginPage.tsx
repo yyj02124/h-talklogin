@@ -1,50 +1,51 @@
 import { Box, Button, Typography } from "@mui/material";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import LoginField from "./LoginField";
-import { getHtalkApi, getHTalkCertApi, getHTalkLoginApi } from "./service/login";
+import { getHtalkApi, getUserInformationApi } from "./service/login";
 import { CertLoginTypes, LoginTypes } from "./service/loginTypes";
 import { useStore } from "./store";
 
-
+export type LoginFormValues = {
+  email: string
+  password: string
+  certNumber?: string
+}
 
 const LoginPage = () => {
-  const { handleSubmit, control } = useForm();
-  // const setCertId = useStore((state)=>state.setCertId)
+  const { handleSubmit, control } = useForm<LoginFormValues>({
+    defaultValues: {
+      email: '',
+      password: '',
+      certNumber: undefined,
+    },
+  });
+  // const [certId,setCertId] = useState<string|null>('');
+  const setCertId = useStore((state)=>state.setCertId)
 
-  const handleLogin = (data:any) => {
+  const handleLogin = (data:LoginFormValues) => {
 
-    const loginData:CertLoginTypes = {
+    const certLogin:CertLoginTypes = {
       certType:'LOGIN',
-      email: data.Login,
-      password:data.Password,
+      email: data.email,
+      password:data.password,
     }
 
-    getHTalkCertApi(loginData,`/auth/v1/cert/pw`)
-  }
-
-  const handleCertLogin = (data:any) => {
-
-    const loginData:CertLoginTypes = {
+    const certNumLogin:CertLoginTypes = {
       certType:'LOGIN',
-      email: data.Login,
-      password:data.Password,
-      certNumber:data.CertNum
+      email: data.email,
+      password:data.password,
+      certNumber:data.certNumber
     }
-
-    getHtalkApi(loginData,`/auth/v1/cert/confirm/pw`)
-    // setCertId(localStorage.getItem('app-storage'))
-  }
-
-  const handleLoginPw = (data:any) => {
-
-    const loginData:LoginTypes = {
+    
+    const certIdLogin:LoginTypes = {
       certType:'LOGIN',
-      email: data.Login,
-      password:data.Password,
+      email: data.email,
+      password:data.password,
       certId:localStorage.getItem('app-storage')
     }
 
-    getHTalkLoginApi(loginData,`/auth/v1/login/pw`)
+    getHtalkApi(certLogin,certNumLogin,certIdLogin)
   }
 
   return (
@@ -53,12 +54,10 @@ const LoginPage = () => {
       
       <form onSubmit={handleSubmit((data) => {
         handleLogin(data)
-        handleCertLogin(data)
-        handleLoginPw(data)
         })}>
-        <LoginField label="아이디" control={control} name="Login" type="Login"></LoginField>
-        <LoginField label="비밀번호" control={control} name="Password" type="Password"></LoginField>
-        <LoginField label="인증번호" control={control} name="CertNum" type="Login"></LoginField>
+        <LoginField label="아이디" control={control} name='email' type="Login"></LoginField>
+        <LoginField label="비밀번호" control={control} name="password" type="Password"></LoginField>
+        <LoginField label="인증번호" control={control} name="certNumber" type="Login"></LoginField>
         <Button variant='contained' sx={{mt: '20px' ,backgroundColor:'#000000', width:'352px'}} type='submit'>
         로그인
       </Button>
