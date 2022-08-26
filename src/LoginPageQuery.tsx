@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { Mutation, useMutation } from 'react-query';
 import LoginField from './LoginField';
 import { CertLoginTypes, LoginFormValues } from './service/loginTypes';
 
@@ -38,16 +38,14 @@ const LoginPageQuery = () => {
             email: data.email,
             password:data.password,
           }
-
-        loginMutation.mutate(certLogin)
-
+        loginMutation.mutate
     },[loginMutation])
   return (
     <Box sx={{ width: "560px", height: "365px", backgroundColor: "#f5f9fe" }}>
       <Typography>H-Talk LoginPage</Typography>
       
       <form onSubmit={handleSubmit((data) => {
-        onSubmit(data)
+        console.log(data)
         })}>
         <LoginField label="아이디" control={control} name='email' type="Login"></LoginField>
         <LoginField label="비밀번호" control={control} name="password" type="Password"></LoginField>
