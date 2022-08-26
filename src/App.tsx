@@ -1,10 +1,17 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import LoginPage from './LoginPage';
+import LoginPageQuery from './LoginPageQuery';
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
     <div className="App">
-        <LoginPage />
+      {/* <QueryClientProvider client={queryClient}>
+        <LoginPageQuery />
+      </QueryClientProvider> */}
+      <LoginPage />
     </div>
   );
 }

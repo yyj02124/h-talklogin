@@ -1,16 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import LoginField from "./LoginField";
-import { getHtalkApi, getUserInformationApi } from "./service/login";
-import { CertLoginTypes, LoginTypes } from "./service/loginTypes";
-import { useStore } from "./store";
-
-export type LoginFormValues = {
-  email: string
-  password: string
-  certNumber?: string
-}
+import { getHtalkApi } from "./service/login";
+import { CertLoginTypes, LoginFormValues, LoginTypes } from "./service/loginTypes";
 
 const LoginPage = () => {
   const { handleSubmit, control } = useForm<LoginFormValues>({
@@ -20,8 +12,6 @@ const LoginPage = () => {
       certNumber: undefined,
     },
   });
-  // const [certId,setCertId] = useState<string|null>('');
-  const setCertId = useStore((state)=>state.setCertId)
 
   const handleLogin = (data:LoginFormValues) => {
 
@@ -42,13 +32,13 @@ const LoginPage = () => {
       certType:'LOGIN',
       email: data.email,
       password:data.password,
-      certId:localStorage.getItem('app-storage')
     }
 
     getHtalkApi(certLogin,certNumLogin,certIdLogin)
   }
 
   return (
+
     <Box sx={{ width: "560px", height: "365px", backgroundColor: "#f5f9fe" }}>
       <Typography>H-Talk LoginPage</Typography>
       
@@ -62,8 +52,9 @@ const LoginPage = () => {
         로그인
       </Button>
       </form>
-      
+
     </Box>
+
   );
 };
 
