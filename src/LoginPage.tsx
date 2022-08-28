@@ -5,6 +5,10 @@ import LoginField from "./LoginField";
 import { getHtalkApi } from "./service/login";
 import { CertLoginTypes, LoginFormValues, LoginTypes } from "./service/loginTypes";
 
+interface inputProps {
+  title: string;
+}
+
 const LoginPage = () => {
   const [inputEle, setInputEle] = useState("");
   const { handleSubmit, control } = useForm<LoginFormValues>({
@@ -43,7 +47,10 @@ const LoginPage = () => {
     const eventTarget = e.target as HTMLFormElement;
 
     e.preventDefault();
-    console.log(eventTarget.title.value);
+    const data: inputProps = {
+      title: eventTarget.title.value,
+    };
+    console.log(data);
   };
 
   const handleEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
