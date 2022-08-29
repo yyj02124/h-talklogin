@@ -2,19 +2,15 @@ import create from 'zustand'
 import {devtools, persist} from 'zustand/middleware'
 
 interface RootState {
-  certId:string|null
-  setCertId:(certId:string|null)=>void
+  loginTime:number|null
+  setLoginTime:(loginTime:number|null)=>void
 }
 
 export const useStore = create<RootState>()(devtools(
   persist(
     (set) => ({
-     certId:'',
-     setCertId: (certId:string|null)=>set({certId})
+     loginTime:0,
+     setLoginTime: (loginTime:number|null)=>set({loginTime})
     }),
-    {
-      name: 'app-storage',
-      getStorage: () => localStorage,
-    }
   )
 ))
