@@ -5,9 +5,17 @@ const baseUrl = `https://htalk-api.helixtech.co.kr/auth/v1`;
 
 export const getLoginApi = async (certNumreq: CertLoginTypes) => {
   try {
-    const getCertNum = await axios.post(`${baseUrl}/cert/pw`, certNumreq, {
-      headers: { "App-Agent": "AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB" },
-    });
+    const getCertNum = await axios.post(
+      `${baseUrl}/cert/pw`,
+      {
+        certType: certNumreq.certType,
+        email: certNumreq.email,
+        password: certNumreq.password,
+      },
+      {
+        headers: { "App-Agent": "AppVersion:1.0.0;DeviceType:PC;DeviceAuthType:WEB" },
+      }
+    );
   } catch (err) {
     console.error("Error:::", err);
     window.location.reload();

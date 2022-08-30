@@ -1,9 +1,10 @@
-import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import LoginPage from './LoginPage';
-import LoginPageQuery from './LoginPageQuery';
+import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import FormikLoginPage from "./FormikLoginPage";
+import LoginPage from "./LoginPage";
+import LoginPageQuery from "./LoginPageQuery";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       {/* <QueryClientProvider client={queryClient}>
         <LoginPageQuery />
       </QueryClientProvider> */}
-      <LoginPage />
+      <FormikLoginPage />
     </div>
   );
 }

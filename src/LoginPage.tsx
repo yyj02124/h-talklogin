@@ -1,12 +1,12 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { differenceInSeconds } from "date-fns";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import LoginField from "./LoginField";
 import { getHtalkApi, getLoginApi } from "./service/login";
 import { CertLoginTypes, LoginFormValues, LoginTypes } from "./service/loginTypes";
 
-const DATE_DIFF = 60;
+export const DATE_DIFF = 60;
 
 const LoginPage = () => {
   const [inputEmail, setInputEmail] = useState<string>("");
@@ -15,13 +15,13 @@ const LoginPage = () => {
   const [checkVal, setCheckVal] = useState<boolean>(false);
   const date = Date.now();
 
-  // const { handleSubmit, control } = useForm<LoginFormValues>({
-  //   defaultValues: {
-  //     email: "",
-  //     password: "",
-  //     certNumber: undefined,
-  //   },
-  // });
+  const { handleSubmit, control, register, setValue, watch } = useForm<LoginFormValues>({
+    defaultValues: {
+      email: "",
+      password: "",
+      certNumber: undefined,
+    },
+  });
 
   // const handleLogin = (data: LoginFormValues) => {
   //   const certLogin: CertLoginTypes = {
@@ -56,6 +56,17 @@ const LoginPage = () => {
   //   getHtalkApi(certNumLogin, certIdLogin);
 
   //   console.log(data);
+  // };
+
+  const { email, password, certNumber } = watch();
+
+  useEffect(() => {
+    register("email");
+    register("password");
+  }, [register]);
+
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>, name) => {
+  //   setValue(name, e.target.value);
   // };
 
   const getCertNumFunc = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -113,7 +124,7 @@ const LoginPage = () => {
     <Box sx={{ width: "560px", height: "365px", backgroundColor: "#f5f9fe" }}>
       <Typography>H-Talk LoginPage</Typography>
       <form onSubmit={checkVal ? LoginFunc : getCertNumFunc}>
-        <input type="search" name="email" placeholder="이메일" value={inputEmail} onChange={handleInputEmailEvent} />
+        <input type="search" name="email" placeholder="이메일" onChange={handleInputEmailEvent} />
         <input
           type="password"
           name="password"
