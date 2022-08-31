@@ -12,7 +12,7 @@ function App() {
       {/* <QueryClientProvider client={queryClient}>
         <LoginPageQuery />
       </QueryClientProvider> */}
-      <FormikLoginPage />
+      <LoginPage />
     </div>
   );
 }

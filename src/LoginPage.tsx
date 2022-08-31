@@ -75,8 +75,8 @@ const LoginPage = () => {
     e.preventDefault();
     const certLogin: CertLoginTypes = {
       certType: "LOGIN",
-      email: eventTarget.email.value,
-      password: eventTarget.password.value,
+      email: inputEmail,
+      password: inputPassword,
     };
 
     console.log(certLogin);
@@ -124,7 +124,7 @@ const LoginPage = () => {
     <Box sx={{ width: "560px", height: "365px", backgroundColor: "#f5f9fe" }}>
       <Typography>H-Talk LoginPage</Typography>
       <form onSubmit={checkVal ? LoginFunc : getCertNumFunc}>
-        <input type="search" name="email" placeholder="이메일" onChange={handleInputEmailEvent} />
+        <input type="search" name="email" placeholder="이메일" value={inputEmail} onChange={handleInputEmailEvent} />
         <input
           type="password"
           name="password"
